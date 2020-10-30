@@ -8,12 +8,25 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables
+    //Animator anim;
+    int jump_phase;
+    [SerializeField]
+    private GameObject run_col;
+    [SerializeField]
+    private GameObject slide_col;
+    [SerializeField]
+    private float slide_duration;
     public Vector3 input;
     public Vector3 velocity,maxVel;
     public float PlayerAcceleration, jumpHeight, gravity;
     [SerializeField] private Transform rc_origin;
     #endregion
-
+    private void Awake()
+    {
+        jump_phase = -1;
+       // anim = GetComponent<Animator>();
+        //anim.SetTrigger("to_run");
+    }
     void Update()
     {
         if(input!=Vector3.zero)
@@ -23,6 +36,20 @@ public class PlayerMovement : MonoBehaviour
         }
         
         velocity.y -= gravity * Time.deltaTime; 
+
+        if(jump_phase == 0)
+        {
+            if(velocity.y < 0)
+            {
+                //anim.SetTrigger("to_fall");
+                jump_phase = 1;
+            }
+        }
+        else if(jump_phase == 1 && is_grounded())
+        {
+            //anim.SetTrigger("to_land");
+            jump_phase = -1;
+        }
     }
 
     private void LateUpdate()
@@ -32,21 +59,47 @@ public class PlayerMovement : MonoBehaviour
 
     public void jump()
     {
+        if(is_grounded())
+        {
+            velocity.y = jumpHeight;
+            //anim.SetTrigger("to_jump");
+            jump_phase = 0;
+        }
+    }
+    
+    public bool is_grounded()
+    {
         ContactFilter2D contactFilter2D = new ContactFilter2D
         {
-            useLayerMask = true, 
-            layerMask = ~LayerMask.GetMask(new[] {"Player"})
+            useLayerMask = true,
+            layerMask = ~LayerMask.GetMask(new[] { "Player" })
         };
         Vector3 origin = transform.position;
-        float distance = GetComponent<Collider2D>().bounds.extents.y + 0.1f;
+        float distance = GetComponentInChildren<Collider2D>().bounds.extents.y + 0.5f;
         RaycastHit2D[] results = new RaycastHit2D[10];
         int hitCount = Physics2D.Raycast(origin, Vector3.down, contactFilter2D, results, distance);
         if (hitCount != 0)
         {
-            Debug.Log($"Hit GameObject = {results[0].transform.name}\nHit point = {results[0].point}");
-            velocity.y = jumpHeight;
+            Debug.Log($"Hit gameObject {results[0].transform.name}");
+            return true;
         }
         Debug.DrawRay(origin, Vector3.down * distance, Color.red, 1.0f);
+        return false;
+    }
+
+    public void slide()
+    {
+        run_col.SetActive(false);
+        slide_col.SetActive(true);
+        //anim.SetTrigger("to_slide");
+    }
+
+    private IEnumerator slide_timer()
+    {
+        yield return new WaitForSeconds(slide_duration);
+        //anim.SetTrigger("to_run");
+        run_col.SetActive(true);
+        slide_col.SetActive(false);
     }
 
     private void Velocity_Move()
