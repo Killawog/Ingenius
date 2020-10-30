@@ -13,5 +13,10 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         ply.input.x = 1;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ply.jump();
+        }
     }
 }
