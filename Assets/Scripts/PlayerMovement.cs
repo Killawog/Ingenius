@@ -8,7 +8,7 @@ using Vector3 = UnityEngine.Vector3;
 public class PlayerMovement : MonoBehaviour
 {
     #region Variables
-    //Animator anim;
+    Animator anim;
     int jump_phase;
     [SerializeField]
     private GameObject run_col;
@@ -24,8 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         jump_phase = -1;
-       // anim = GetComponent<Animator>();
-        //anim.SetTrigger("to_run");
+        anim = GetComponent<Animator>();
+        anim.SetTrigger("to_run");
     }
     void Update()
     {
@@ -41,15 +41,23 @@ public class PlayerMovement : MonoBehaviour
         {
             if(velocity.y < 0)
             {
-                //anim.SetTrigger("to_fall");
+                anim.SetTrigger("to_fall");
                 jump_phase = 1;
             }
         }
         else if(jump_phase == 1 && is_grounded())
         {
-            //anim.SetTrigger("to_land");
+            anim.SetTrigger("to_land");
             jump_phase = -1;
         }
+        
+        if(!is_grounded() && jump_phase == -1)
+        {
+            jump_phase = 1;
+            anim.SetTrigger("to_fall");
+        }
+        
+        
     }
 
     private void LateUpdate()
@@ -62,7 +70,7 @@ public class PlayerMovement : MonoBehaviour
         if(is_grounded())
         {
             velocity.y = jumpHeight;
-            //anim.SetTrigger("to_jump");
+            anim.SetTrigger("to_jump");
             jump_phase = 0;
         }
     }
@@ -74,8 +82,8 @@ public class PlayerMovement : MonoBehaviour
             useLayerMask = true,
             layerMask = ~LayerMask.GetMask(new[] { "Player" })
         };
-        Vector3 origin = transform.position;
-        float distance = GetComponentInChildren<Collider2D>().bounds.extents.y + 0.5f;
+        Vector3 origin = rc_origin.position;
+        float distance = 0.1f;
         RaycastHit2D[] results = new RaycastHit2D[10];
         int hitCount = Physics2D.Raycast(origin, Vector3.down, contactFilter2D, results, distance);
         if (hitCount != 0)
@@ -91,13 +99,14 @@ public class PlayerMovement : MonoBehaviour
     {
         run_col.SetActive(false);
         slide_col.SetActive(true);
-        //anim.SetTrigger("to_slide");
+        anim.SetTrigger("to_slide");
+        StartCoroutine(slide_timer());
     }
 
     private IEnumerator slide_timer()
     {
         yield return new WaitForSeconds(slide_duration);
-        //anim.SetTrigger("to_run");
+        anim.SetTrigger("to_run");
         run_col.SetActive(true);
         slide_col.SetActive(false);
     }
@@ -109,16 +118,34 @@ public class PlayerMovement : MonoBehaviour
 
         if (velocity.y < 0.0f)
         {
-            RaycastHit2D [] HitResults = new RaycastHit2D [10];
-            ContactFilter2D cnt = new ContactFilter2D();
-            int abcd = Physics2D.Raycast(rc_origin.position, Vector2.down, cnt, HitResults, velocity.y * Time.deltaTime);
-            if (abcd != 0)
+            ContactFilter2D contactFilter2D = new ContactFilter2D
             {
-                Debug.DrawLine(rc_origin.position, rc_origin.position + (Vector3.down * HitResults[0].distance), Color.red);
-                velocity.y = -HitResults[0].distance / Time.deltaTime;
+                useLayerMask = true,
+                layerMask = ~LayerMask.GetMask(new[] { "Player" })
+            };
+            Vector3 origin = rc_origin.position;
+            float distance = 0.1f;
+            RaycastHit2D[] results = new RaycastHit2D[10];
+            int hitCount = Physics2D.Raycast(origin, Vector3.down, contactFilter2D, results, distance);
+            if (hitCount != 0)
+            {
+                Debug.Log($"Hit gameObject {results[0].transform.name}");
+                velocity.y = -results[0].distance / Time.deltaTime;
             }
+            Debug.DrawRay(origin, Vector3.down * distance, Color.black);
         }
         
         transform.position += velocity * Time.deltaTime;
     }
 }
+
+/*
+RaycastHit2D[] HitResults = new RaycastHit2D[10];
+ContactFilter2D cnt = new ContactFilter2D();
+int abcd = Physics2D.Raycast(rc_origin.position, Vector2.down, cnt, HitResults, velocity.y * Time.deltaTime);
+            if (abcd != 0)
+            {
+                Debug.DrawLine(rc_origin.position, rc_origin.position + (Vector3.down* HitResults[0].distance), Color.red);
+                velocity.y = -HitResults[0].distance / Time.deltaTime;
+            }
+*/

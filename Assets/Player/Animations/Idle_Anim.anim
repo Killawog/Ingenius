@@ -32,7 +32,7 @@ AnimationClip:
     - time: 0.8
       value: {fileID: 21300000, guid: abd06efa7e597c442a02f3c2ef2d43ef, type: 3}
     attribute: m_Sprite
-    path: 
+    path: adventurer-idle-00
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -43,7 +43,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 0
+      path: 706635982
       attribute: 0
       script: {fileID: 0}
       typeID: 212
