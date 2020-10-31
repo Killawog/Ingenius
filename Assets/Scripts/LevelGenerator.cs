@@ -22,7 +22,7 @@ public class LevelGenerator : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(Vector2.Distance(Player.transform.position, last_end_position) < playerdist);
+        //Debug.Log(Vector2.Distance(Player.transform.position, last_end_position) < playerdist);
         if(Vector2.Distance(Player.transform.position, last_end_position) < playerdist)
         {
             spawn_lvl_part();
