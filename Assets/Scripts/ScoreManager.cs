@@ -8,6 +8,7 @@ public class ScoreManager : MonoBehaviour
     public Text ScoreValueLbl;
     [SerializeField] private PlayerManager playerManager;
     private Vector3 PlayerInitialPos;
+    [SerializeField] private float Score_Multiplier;
 
     void Start()
     {
@@ -16,6 +17,6 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        ScoreValueLbl.text = (int)(playerManager.transform.position.x - PlayerInitialPos.x) + "";
+        ScoreValueLbl.text = (int)((playerManager.transform.position.x - PlayerInitialPos.x)/Score_Multiplier) + "";
     }
 }

@@ -15,7 +15,7 @@ public class LevelGenerator : MonoBehaviour
     private void Awake()
     {
         last_end_position = Lvl_start.Find("LevelEnd").position;
-        Debug.Log(last_end_position);
+        //Debug.Log(last_end_position);
 
         spawn_lvl_part();
     }
