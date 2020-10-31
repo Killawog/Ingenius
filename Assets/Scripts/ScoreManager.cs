@@ -16,6 +16,6 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        ScoreValueLbl.text = (playerManager.transform.position.x - PlayerInitialPos.x) + "";
+        ScoreValueLbl.text = (int)(playerManager.transform.position.x - PlayerInitialPos.x) + "";
     }
 }
