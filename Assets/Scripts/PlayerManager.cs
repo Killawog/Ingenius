@@ -27,4 +27,9 @@ public class PlayerManager : MonoBehaviour
             ply.slide();
         }
     }
+
+    public void ReduceHealth_F()
+    {
+        Debug.Log("Reduced Health");
+    }
 }

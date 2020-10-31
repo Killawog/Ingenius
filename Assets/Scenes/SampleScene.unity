@@ -390,7 +390,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -654,7 +654,7 @@ Transform:
   m_Children:
   - {fileID: 618017242}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &618017241
 GameObject:
@@ -760,6 +760,7 @@ GameObject:
   m_Component:
   - component: {fileID: 647511461}
   - component: {fileID: 647511462}
+  - component: {fileID: 647511463}
   m_Layer: 6
   m_Name: Running_collider
   m_TagString: Untagged
@@ -807,6 +808,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &647511463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647511460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd47ef049af97c48a293080a0a8ae81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerManager: {fileID: 0}
 --- !u!1 &651205892
 GameObject:
   m_ObjectHideFlags: 0
@@ -986,6 +1000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 816114142}
   - component: {fileID: 816114143}
+  - component: {fileID: 816114144}
   m_Layer: 6
   m_Name: Sliding_collider
   m_TagString: Untagged
@@ -1033,6 +1048,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &816114144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 816114141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd47ef049af97c48a293080a0a8ae81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerManager: {fileID: 0}
 --- !u!1 &898876871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1476,7 +1504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6240501577220155798, guid: 090dcf6807e817a4494ae780ec87d23e, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6240501577220155798, guid: 090dcf6807e817a4494ae780ec87d23e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1529,7 +1557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8103284847780236586, guid: fb19a99d6d7d17d48aa7fc116eedc2ce, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8103284847780236586, guid: fb19a99d6d7d17d48aa7fc116eedc2ce, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
