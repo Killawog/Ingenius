@@ -1002,7 +1002,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   run_col: {fileID: 647511460}
   slide_col: {fileID: 816114141}
-  slide_duration: 1.5
+  slide_duration: 0.5
+  slideSpeedIncrease: 3
   input: {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   maxVel: {x: 3, y: 3, z: 3}

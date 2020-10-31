@@ -10,23 +10,23 @@ public class PlayerMovement : MonoBehaviour
     #region Variables
     Animator anim;
     int jump_phase;
-    [SerializeField]
-    private GameObject run_col;
-    [SerializeField]
-    private GameObject slide_col;
-    [SerializeField]
-    private float slide_duration;
+    [SerializeField] private GameObject run_col;
+    [SerializeField] private GameObject slide_col;
+    [SerializeField] private float slide_duration;
+    [SerializeField] private float slideSpeedIncrease;
     public Vector3 input;
     public Vector3 velocity,maxVel;
     public float PlayerAcceleration, jumpHeight, gravity;
     [SerializeField] private Transform rc_origin;
     #endregion
+
     private void Awake()
     {
         jump_phase = -1;
         anim = GetComponent<Animator>();
         anim.SetTrigger("to_run");
     }
+    
     void Update()
     {
         if(input!=Vector3.zero)
@@ -97,6 +97,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void slide()
     {
+        velocity.x = maxVel.x + slideSpeedIncrease;
+        maxVel.x += slideSpeedIncrease;
         run_col.SetActive(false);
         slide_col.SetActive(true);
         anim.SetTrigger("to_slide");
@@ -109,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetTrigger("to_run");
         run_col.SetActive(true);
         slide_col.SetActive(false);
+        maxVel.x -= slideSpeedIncrease;
     }
 
     private void Velocity_Move()
