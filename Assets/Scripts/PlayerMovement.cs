@@ -9,7 +9,9 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Variables
     Animator anim;
-    int jump_phase;
+    private int jump_phase;
+    private int slide_phase;
+    private int run_phase;
     [SerializeField] private GameObject run_col;
     [SerializeField] private GameObject slide_col;
     [SerializeField] private float slide_duration;
@@ -22,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        jump_phase = -1;
+        jump_phase = slide_phase = -1;
         anim = GetComponent<Animator>();
         anim.SetTrigger("to_run");
     }
@@ -67,12 +69,13 @@ public class PlayerMovement : MonoBehaviour
 
     public void jump()
     {
-        if(is_grounded())
-        {
-            velocity.y = jumpHeight;
-            anim.SetTrigger("to_jump");
-            jump_phase = 0;
-        }
+        if (!is_grounded()) return;
+
+        if(slide_phase != -1) SlideEnd_F();
+
+        velocity.y = jumpHeight;
+        anim.SetTrigger("to_jump");
+        jump_phase = 0;
     }
     
     public bool is_grounded()
@@ -97,21 +100,33 @@ public class PlayerMovement : MonoBehaviour
 
     public void slide()
     {
+        if (jump_phase != -1 || slide_phase != -1) return;
+
         velocity.x = maxVel.x + slideSpeedIncrease;
         maxVel.x += slideSpeedIncrease;
         run_col.SetActive(false);
         slide_col.SetActive(true);
         anim.SetTrigger("to_slide");
+        slide_phase = 0;
         StartCoroutine(slide_timer());
     }
 
     private IEnumerator slide_timer()
     {
         yield return new WaitForSeconds(slide_duration);
-        anim.SetTrigger("to_run");
+        if (slide_phase != -1)
+        {
+            SlideEnd_F();
+            anim.SetTrigger("to_run");
+        }
+    }
+
+    private void SlideEnd_F()
+    {
         run_col.SetActive(true);
         slide_col.SetActive(false);
         maxVel.x -= slideSpeedIncrease;
+        slide_phase = -1;
     }
 
     private void Velocity_Move()
