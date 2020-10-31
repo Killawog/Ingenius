@@ -5,14 +5,17 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public Tex;
-    public int i;
+    public Text ScoreValueLbl;
+    [SerializeField] private PlayerManager playerManager;
+    private Vector3 PlayerInitialPos;
+
     void Start()
     {
-        
+        PlayerInitialPos = playerManager.transform.position;
     }
+
     void Update()
     {
-               
+        ScoreValueLbl.text = (playerManager.transform.position.x - PlayerInitialPos.x) + "";
     }
 }
