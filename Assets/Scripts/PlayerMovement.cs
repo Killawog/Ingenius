@@ -91,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log($"Hit gameObject {results[0].transform.name}");
             return true;
         }
-        Debug.DrawRay(origin, Vector3.down * distance, Color.red, 1.0f);
+        //Debug.DrawRay(origin, Vector3.down * distance, Color.red, 1.0f);
         return false;
     }
 
@@ -132,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
                 //Debug.Log($"Hit gameObject {results[0].transform.name}");
                 velocity.y = -results[0].distance / Time.deltaTime;
             }
-            Debug.DrawRay(origin, Vector3.down * distance, Color.black);
+           // Debug.DrawRay(origin, Vector3.down * distance, Color.black);
         }
         
         transform.position += velocity * Time.deltaTime;
